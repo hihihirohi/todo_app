@@ -1838,6 +1838,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+!(function webpackMissingModule() { var e = new Error("Cannot find module '../api.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 //
 //
 //
@@ -1854,8 +1855,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      active_todo: null,
+      todo_form: "",
+      todos: []
+    };
+  },
+  methods: {
+    addTodo: function addTodo() {
+      var _this = this;
+
+      var data = {
+        todo: this.todo_form
+      };
+      data._token = document.getElementsByName('csrf-token')[0].content;
+      !(function webpackMissingModule() { var e = new Error("Cannot find module '../api.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).postTodo(JSON.stringify(data)).then(function () {
+        _this.getTodoList();
+      });
+    },
+    deleteTodo: function deleteTodo(id) {
+      var _this2 = this;
+
+      var data = {};
+      data._token = document.getElementsByName('csrf-token')[0].content;
+      !(function webpackMissingModule() { var e = new Error("Cannot find module '../api.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).deleteTodo(id, JSON.stringify(data)).then(function () {
+        _this2.getTodoList();
+      });
+    },
+    updateTodo: function updateTodo(id) {
+      var _this3 = this;
+
+      var data = {
+        todo: this.todos.filter(function (v) {
+          return v.id === id;
+        })[0].todo
+      };
+      data._token = document.getElementsByName('csrf-token')[0].content;
+      !(function webpackMissingModule() { var e = new Error("Cannot find module '../api.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).updateTodo(id, JSON.stringify(data)).then(function () {
+        _this3.getTodoList();
+      });
+    },
+    getTodoList: function getTodoList() {
+      var _this4 = this;
+
+      !(function webpackMissingModule() { var e = new Error("Cannot find module '../api.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()).getTodoList().then(function (result) {
+        _this4.todos = result;
+      });
+    }
+  },
   mounted: function mounted() {
+    this.getTodoList();
     console.log('Component mounted.');
   }
 });
@@ -37168,32 +37226,101 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.todo_form,
+                  expression: "todo_form"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "inputtodo" },
+              domProps: { value: _vm.todo_form },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.todo_form = $event.target.value
+                }
+              }
+            }),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button" },
+                on: { click: _vm.addTodo }
+              },
+              [_vm._v("Add")]
+            )
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-header" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.deleteTodo(_vm.todo.id)
+                }
+              }
+            },
+            [_vm._v("Delete")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.updateTodo(_vm.todo.id)
+                }
+              }
+            },
+            [_vm._v("Update")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.todo.todo,
+                expression: "todo.todo"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "todo" },
+            domProps: { value: _vm.todo.todo },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.todo, "todo", $event.target.value)
+              }
+            }
+          })
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49340,9 +49467,11 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -49371,6 +49500,49 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 var app = new Vue({
   el: '#app'
 });
+"use strict";
+
+var send = function send(method, uri) {
+  var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var url = 'http://127.0.0.1:8000' + uri;
+  return new Promise(function (resolve) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+    xhr.onload = function () {
+      try {
+        var res_json = JSON.parse(xhr.responseText);
+        resolve(res_json);
+      } catch (e) {
+        resolve(xhr.responseText);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.log(xhr.status);
+      console.log("error!");
+    };
+
+    xhr.send(data);
+  });
+};
+
+var api = {
+  getTodoList: function getTodoList() {
+    return send("GET", "/api/todo");
+  },
+  postTodo: function postTodo(todo) {
+    return send("POST", "/api/todo", todo);
+  },
+  updateTodo: function updateTodo(id, todo) {
+    return send("PUT", "/api/todo/" + id, todo);
+  },
+  deleteTodo: function deleteTodo(id, data) {
+    return send("DELETE", "/api/todo/" + id, data);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (api);
 
 /***/ }),
 
